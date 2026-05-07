@@ -1,0 +1,481 @@
+//En mi cabeza tiene sentido que convertir un glifo en un token es el camino para
+//donde tiene que tirar esto de las IAs. Esto es para pasar el rato inventando un 
+//idioma. Aunque es más complicado de lo que parece ;D
+//--------------------------------------------------
+//                    Pronombres 
+//-------------------------------------------------
+👤		   Eu
+👤>        Ti 
+👤>>       El
+⚪👤      Nos 
+⚪👤>     Vos 
+⚪👤>>    Eles
+
+//--------------------------------------------------
+//                    Posesivos
+//-------------------------------------------------
+
+⚪👤🔗     Noso 
+⚪👤>🔗    Voso 
+⚪👤>>🔗   Seu
+
+
+//--------------------------------------------------
+//             Adverbios de Lugar
+//-------------------------------------------------
+
+|           Aquí		
+|>          Alí
+|>>         Acolá
+
+
+//--------------------------------------------------
+//             Adverbios de Cantidade
+//-------------------------------------------------
+
+----------------------------------------------
+
+------------------------------------------------
+👥    otro / este
+👥 >   ese
+👥 >>  aquel
+
+--------------------------------------------------
+--------------------------------------
+
+Plural 
+--------------------------------------------
+⚪  varios
+
+⚪👥 multitud
+⚪🍎 manzanas
+
+.---------------------------------------------------
+verbos
+----------------------------------------------------
+
+❤️ 4. Verbos
+↗️ = acción
+
+Ejemplos:
+
+❤️↗️ → querer
+🖤↗️ → necesitar
+💪↗️ → poder
+🛠️↗️ → hacer
+
+____________________________________________
+_________________________________________________
+
+⏱️ 5. Tiempo
+◀️ pasado
+(nada) presente
+▶️ futuro
+
+👉 siempre al final:
+
+❤️↗️▶️
+_____________________________________________________
+
+
+🔄 6. Operadores (flujo)
+🟢 → empezar
+🔁 → repetir
+⏹️ → parar
+⏸️ → pausar
+
+👉 sin ↗️, modifican el verbo:
+
+🟢🛠️↗️
+
+
+_____________________________________________
+
+
+❌ 7. Negación e intensidad
+❌ → no
+⊕ → mucho
+
+-------------------------------------
+
+?→ 8. Contraste
+?→ = pero
+
+_____________________________
+
+📍 9. Posición
+📍 = estar
+
+Relaciones:
+
+📍 ⬆️ → encima
+📍 ⬇️ → debajo
+📍 [ ] → dentro
+📍 → → derecha
+📍 ← → izquierda
+_________________________________________
+
+➕ 10. Preposiciones
+→ hacia
+← desde
+con
+sin
+% para
+ dentro
+| | entre
+
+___________________________________________
+
+11. Preguntas
+¿📍⭕? → dónde
+¿🕒? → cuándo
+¿👤? → quién
+¿📦? → qué
+¿⊕? → cuánto
+
+
+🔽 12. Adjetivos
+↓ = característica
+👤(alto guapo)↓
+
+👉 pegado a lo que describe
+
+🧩 13. Palabras externas
+(palabra)↗️ → verbo
+(palabra)↓ → adjetivo
+
+Opcional:
+
+bandera 🌍
+
+🧠 Sistema de creación de palabras (clave)
+🔧 1. Acción → verbo
+🛠️↗️ → hacer
+🛠️🏠↗️ → construir
+🛠️🔧↗️ → reparar
+🛠️💰↗️ → trabajar
+📦 2. Resultado → sustantivo
+
+👉 quitar ↗️
+
+🛠️ → hecho
+🛠️🏠 → construcción
+🛠️🔧 → reparación
+🛠️💰 → trabajo
+👤 3. Persona (oficio)
+
+👉 añadir ⚫
+
+🛠️🏠⚫ → constructor
+🛠️🔧⚫ → reparador
+🛠️💰⚫ → trabajador
+🏢 4. Lugar / empresa
+
+Aquí tienes dos caminos:
+
+✔ Opción A (simple y limpia)
+
+👉 usar genitivo
+
+🏢 🔗 🛠️🔧
+→ taller de reparación
+🏢 🔗 🛠️🏠
+→ empresa de construcción
+
+
+Ejemplos completos
+👤 🛠️🔧↗️
+→ reparo
+👤 🛠️🔧⚫
+→ soy reparador
+👤 📍 [🏢 🔗 🛠️🔧]
+→ estoy en un taller
+🔑 Regla general (muy potente)
+
+base + modificador = nuevo significado
+
+🛠️ + 🏠 +↗️ → construir (acción de construir)
+🛠️ + 🔧+ ↗️ → reparar (acción de reparar)
+🛠️ + 💰+ ↗️ → trabajar (acción de ganar dinero)
+
+
+..................................................
+
+📘 GIRI‑JI — RESUMEN GENERAL (v1.2)
+👤 1. Pronombres (Identidad)
+Símbolo	Significado
+👤	yo
+👤>	tú
+👤>>	él/ella
+⚪👤	nosotros
+⚪👤>	vosotros
+⚪👤>>	ellos
+
+
+Deixis / demostrativos
+
+Símbolo	Significado
+👥	este / otro
+👥>	ese
+👥>>	aquel
+👥⚫	estes / otros
+👥>⚫	eses
+👥>>⚫	aquellos
+
+⚫ 2. Plural (operador)
+⚫ = plural
+
+Ejemplos:
+
+🍎⚫ → manzanas
+
+👥⚫ → otros
+
+🧒⚫ → niños
+
+🔗 3. Posesión
+🔗 = “de”
+
+Ejemplos:
+
+🏠 🔗 👤 → mi casa
+
+🏠 🔗 👥> → casa de ese
+
+📦 🔗 ⚪👤 → caja nuestra
+
+↗ 4. Verbos (acción)
+↗ = acción
+
+Ejemplos:
+
+❤️↗ → querer
+
+🛠️↗ → hacer
+
+🎓💰↗ → financiar estudios
+
+🍎⚙️↗ → procesar comida
+
+⏱️ 5. Tiempo verbal
+Siempre al final:
+
+Símbolo	Tiempo
+◀	pasado
+(nada)	presente
+▶	futuro
+
+
+Ejemplo:
+❤️↗▶ → querré
+
+🔄 6. Operadores de acción (flujo)
+Símbolo	Función
+🟢	empezar
+🔁	repetir
+⏹️	parar
+⏸️	pausar
+
+
+Ejemplo:
+🟢🛠️↗ → empezar a hacer
+
+📍 7. Posición (estar)
+📍 = estar
+
+Modificadores:
+
+📍⬆️ → encima
+
+📍⬇️ → debajo
+
+📍[ ] → dentro
+
+📍→ → derecha
+
+📍← → izquierda
+
+➕ 8. Relaciones / preposiciones
+→ hacia
+
+← desde
+
+con
+
+sin
+
+❌ 9. Negación e intensidad
+❌ → no
+
+⊕ → mucho
+
+⊖ → poco
+
+🔽 10. Adjetivos
+↓ = característica
+
+Ejemplo:
+👤(alto guapo)↓ → persona alta y guapa
+
+Regla:
+
+El adjetivo describe lo que está pegado a él.
+
+🧱 11. Orden (regla clave)
+El primer símbolo manda el contexto.
+
+Ejemplos:
+
+🛠️🏠↗ → construir
+
+🏠🛠️↗ → actuar sobre la casa
+
+📦 12. Contenedores (contexto explícito)
+[ ] = ámbito / marco
+
+Ejemplos:
+
+[🏠] 🧹↗ → limpiar la casa
+
+[🧠] 🛠️↗ → organizar ideas
+
+🔧 13. Composición semántica
+base + modificadores = nuevo significado
+
+Ejemplos:
+
+🛠️🏠↗ → construir
+
+🛠️🔧↗ → reparar
+
+🛠️💰↗ → trabajar
+
+🔀 14. Operadores de proximidad aplicados a verbos
+Símbolo	Significado
+acercarse
+intimar / acercarse mucho
+>↗	alejarse
+>>↗	alejarse mucho
+
+
+Ejemplos:
+
+👤 <↗ 👤> → yo me acerco a ti
+
+👤> <<↗ 👤 → tú te acercas mucho a mí
+
+👤>> >↗ ⚪👤 → él se aleja de nosotros
+
+🌀⏹️ 15. Modo abstracto (conceptos)
+🌀 activa modo concepto  
+⏹️ lo cierra
+
+Reglas:
+
+🌀 siempre al inicio
+
+mientras no haya ⏹️, todo es concepto
+
+↗ NO ejecuta acción dentro de 🌀
+
+Ejemplos:
+
+Acción:
+Código
+🛠️🏠↗
+= construir
+
+Concepto:
+Código
+🌀🛠️🏠↗
+= construcción
+
+Concepto + acción:
+Código
+🌀🔥🧊 ⏹️ 🔥🧊↗
+=
+concepto → contraste térmico
+acción → mezclar temperaturas
+
+🔷 16. Modo lógico (conceptual, NO implementado)
+🔷 = estructura formal / relación  
+↗ dentro de 🔷 = etiqueta de relación, NO acción
+NO se mezcla con 🌀
+NO se ejecuta nada
+
+Ejemplo conceptual:
+
+Código
+🔷 👤 ❤️↗ 👤>
+= yo —[querer]→ tú
+(no “te quiero”, no acción)
+
+🎯 17. Filosofía del sistema
+Giri‑ji funciona porque:
+
+es visual
+
+es combinable
+
+es consistente
+
+es computable
+
+es universal
+
+es token‑eficiente
+
+separa acción / concepto / estructura
+
+evita ambigüedad
+
+se integra con programación
+
+🧪 18. Ejemplos reales que hemos usado
+Acción vs concepto
+Código
+💰🎓↗
+= financiar estudios
+
+Código
+🌀💰🎓↗
+= idea de educación financiada
+
+Acción vs estructura
+Código
+🔷 👤 ❤️↗ 👤>
+= relación “yo → querer → tú”
+
+Acción contextual
+Código
+🍎⚙️↗
+= procesar comida
+
+Código
+🚗🏙️↗
+= usar coche en contexto urbano
+(no “hacia”, porque eso sería →)
+
+Proximidad
+Código
+👤 <↗ 👤>
+= yo me acerco a ti
+
+Código
+👤>> >>↗ ⚪👤
+= él se aleja mucho de nosotros
+
+12 
+
+📍 7. Propiedades (ser)
+📍 = ser
+
+Modificadores:
+
+📍↗ → ser alto
+
+
+
+
+
+
