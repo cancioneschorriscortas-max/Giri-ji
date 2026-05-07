@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="gl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giri-ji Lab v2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-input: #1a1a28;
+            --bg-hover: #222236;
+            --accent: #00e5a0;
+            --accent-dim: #00e5a033;
+            --accent-glow: #00e5a066;
+            --warn: #ff6b6b;
+            --warn-dim: #ff6b6b22;
+            --info: #64b5f6;
+            --info-dim: #64b5f622;
+            --text: #e8e8f0;
+            --text-dim: #8888a0;
+            --border: #2a2a3a;
+            --radius: 8px;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Noto Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg-deep);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* === HEADER === */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-family: var(--mono);
+            font-size: 1.4rem;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 span { color: var(--text-dim); font-weight: 400; }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* === BOTONES === */
+        .btn {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-input);
+            color: var(--text);
+        }
+
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-primary { background: var(--accent); color: var(--bg-deep); border-color: var(--accent); font-weight: 700; }
+        .btn-primary:hover { background: #00cc8e; }
+        .btn-danger { border-color: var(--warn); color: var(--warn); }
+        .btn-danger:hover { background: var(--warn-dim); }
+        .btn-small { padding: 4px 10px; font-size: 0.7rem; }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* === TABS === */
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            padding: 12px 24px;
+            cursor: pointer;
+            color: var(--text-dim);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover { color: var(--text); }
+        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* === FORMULARIO === */
+        .form-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-section h3 {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid.full { grid-template-columns: 1fr; }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field.span-2 { grid-column: span 2; }
+
+        .field label {
+            font-size: 0.75rem;
+            font-family: var(--mono);
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .field textarea { resize: vertical; min-height: 60px; }
+
+        .field input.emoji-input {
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 14px;
+            letter-spacing: 4px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .checkbox-row label {
+            font-size: 0.85rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-family: var(--sans);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+
+        /* === EJEMPLOS DINÁMICOS === */
+        .ejemplos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ejemplo-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .ejemplo-row input {
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+        }
+
+        .ejemplo-row input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* === CATEGORÍA NUEVA === */
+        .add-cat-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .add-cat-row input {
+            flex: 1;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+        }
+
+        /* === MENSAJES === */
+        .msg {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .msg.ok { display: block; background: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent); }
+        .msg.err { display: block; background: var(--warn-dim); border: 1px solid var(--warn); color: var(--warn); }
+        .msg.info { display: block; background: var(--info-dim); border: 1px solid var(--info); color: var(--info); }
+
+        /* === PREVIEW === */
+        .preview-box {
+            background: var(--bg-input);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 16px;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            min-height: 60px;
+        }
+
+        .preview-box .emoji-big {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .preview-box .preview-label {
+            color: var(--accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        /* === IMPORT/EXPORT === */
+        .io-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .io-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+
+        .io-box h3 {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .io-box textarea {
+            width: 100%;
+            min-height: 200px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            resize: vertical;
+        }
+
+        .io-box .btn { margin-top: 10px; width: 100%; justify-content: center; }
+
+        .drop-zone {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        /* === STATS === */
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            font-family: var(--mono);
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stat .num { font-size: 1.6rem; color: var(--accent); font-weight: 700; }
+        .stat .lbl { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin-top: 2px; }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .field.span-2 { grid-column: span 1; }
+            .io-section { grid-template-columns: 1fr; }
+            .ejemplo-row { grid-template-columns: 1fr; }
+            .header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🧠 Giri-ji Lab <span>v2.0</span></h1>
+    <div class="header-actions">
+        <a href="ver.php" class="btn">📖 Ver diccionario</a>
+        <a href="reglas.php" class="btn">📜 Regras</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <div id="msg"></div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <div class="tab active" data-tab="entrada">➕ Nova entrada</div>
+        <div class="tab" data-tab="lote">📦 Entrada por lote</div>
+        <div class="tab" data-tab="io">💾 Importar / Exportar</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat"><div class="num" id="stat-total">0</div><div class="lbl">Entradas</div></div>
+        <div class="stat"><div class="num" id="stat-cats">0</div><div class="lbl">Categorías</div></div>
+        <div class="stat"><div class="num" id="stat-raices">0</div><div class="lbl">Raíces</div></div>
+        <div class="stat"><div class="num" id="stat-ejemplos">0</div><div class="lbl">Exemplos</div></div>
+    </div>
+
+    <!-- ==================== TAB: ENTRADA INDIVIDUAL ==================== -->
+    <div class="tab-content active" id="tab-entrada">
+        <form id="formEntrada" action="guardar.php" method="POST">
+
+            <!-- IDENTIDAD -->
+            <div class="form-section">
+                <h3>📝 Identidade da palabra</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Categoría</label>
+                        <select name="categoria" id="sel-categoria" required></select>
+                    </div>
+                    <div class="field">
+                        <label>Subcategoría (opcional)</label>
+                        <input type="text" name="subcategoria" placeholder="Ex: sentidos, clima...">
+                    </div>
+                    <div class="field">
+                        <label>Palabra (Galego)</label>
+                        <input type="text" name="galego" placeholder="Ex: construír, casa..." required>
+                    </div>
+                    <div class="field">
+                        <label>Castelán (opcional)</label>
+                        <input type="text" name="castellano" placeholder="Ex: construir, casa...">
+                    </div>
+                    <div class="field span-2">
+                        <label>Emoji / Composición Giri-ji</label>
+                        <input type="text" name="emoji" class="emoji-input" placeholder="🛠️🏠" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRAMÁTICA -->
+            <div class="form-section">
+                <h3>⚙️ Gramática Giri-ji</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Tipo de símbolo</label>
+                        <select name="tipo_simbolo">
+                            <option value="raiz">🌱 Raíz (símbolo base)</option>
+                            <option value="composicion">🔗 Composición (raíz + raíz)</option>
+                            <option value="operador">⚙️ Operador (↗️, ❌, 🔗...)</option>
+                            <option value="modificador">➕ Modificador (⊕, ↓, ◀️...)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Nivel xerárquico</label>
+                        <select name="nivel">
+                            <option value="1">Nivel 1 — Núcleo (👤, ↗️, 🌀, 🔗, ❌)</option>
+                            <option value="2">Nivel 2 — Mundo físico (📍, 💓)</option>
+                            <option value="3">Nivel 3 — Ontoloxía (✳️)</option>
+                            <option value="4" selected>Nivel 4 — Vocabulario</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Modo semántico</label>
+                        <select name="modo">
+                            <option value="entidad">📦 Entidade (sen ↗️ = cousa)</option>
+                            <option value="accion">↗️ Acción (con ↗️ = función)</option>
+                            <option value="estado">😶 Estado (sen marca = situación)</option>
+                            <option value="atributo">↓ Atributo (cualidade)</option>
+                            <option value="evento">🌧️ Evento (sen axente)</option>
+                            <option value="operador">⚙️ Operador gramatical</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Posición na frase</label>
+                        <select name="posicion_frase">
+                            <option value="suxeito">Suxeito (inicio)</option>
+                            <option value="verbo">Verbo (medio)</option>
+                            <option value="obxecto">Obxecto (tras verbo)</option>
+                            <option value="modificador">Modificador (pegado)</option>
+                            <option value="conector">Conector (entre cláusulas)</option>
+                            <option value="tempo">Tempo (tras verbo)</option>
+                            <option value="libre">Libre / contextual</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <label style="font-size:0.75rem; font-family:var(--mono); color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px;">Propiedades</label>
+                    <div class="checkbox-row" style="margin-top: 8px;">
+                        <label><input type="checkbox" name="es_contenedor"> Contedor [ ]</label>
+                        <label><input type="checkbox" name="lleva_accion"> Leva ↗️</label>
+                        <label><input type="checkbox" name="es_pasivo"> Entidade pasiva (sen ↗️ propio)</label>
+                        <label><input type="checkbox" name="permite_plural"> Admite ⚫ (plural)</label>
+                        <label><input type="checkbox" name="permite_negacion"> ❌ + esto = concepto válido</label>
+                        <label><input type="checkbox" name="permite_atributo"> Admite ↓ (atributo)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPOSICIÓN -->
+            <div class="form-section">
+                <h3>🧩 Composición e derivación</h3>
+                <div class="form-grid full">
+                    <div class="field">
+                        <label>Compoñentes (raíces que forman esta palabra)</label>
+                        <input type="text" name="componentes" placeholder="Ex: 🛠️ + 🏠 (separar con +)">
+                    </div>
+                    <div class="field">
+                        <label>Regra de composición</label>
+                        <input type="text" name="regla_composicion" placeholder="Ex: primeiro=contexto, segundo=especificador">
+                    </div>
+                    <div class="field">
+                        <label>Derivacións coñecidas</label>
+                        <textarea name="derivaciones" rows="2" placeholder="Ex: 🛠️🏠 = construción (sust), 🛠️🏠↗️ = construír (verbo)"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EJEMPLOS -->
+            <div class="form-section">
+                <h3>🧪 Exemplos de uso</h3>
+                <div class="ejemplos-list" id="ejemplos-list">
+                    <div class="ejemplo-row">
+                        <input type="text" name="ejemplo_giriji[]" placeholder="Frase en Giri-ji">
+                        <input type="text" name="ejemplo_traduccion[]" placeholder="Tradución">
+                        <button type="button" class="btn btn-small btn-danger" onclick="this.parentElement.remove()">✕</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-small" onclick="addEjemplo()" style="margin-top:8px;">+ Engadir exemplo</button>
+            </div>
+
+            <!-- LÓGICA -->
+            <div class="form-section">
+                <h3>🧠 Lóxica e notas</h3>
+                <div class="form-grid full">
+                    <div class="field">
+                        <label>Lóxica / Por que este símbolo?</label>
+                        <textarea name="logica" rows="2" placeholder="Razoamento detrás da elección"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Notas para o tradutor automático</label>
+                        <textarea name="notas_traductor" rows="2" placeholder="Regras especiais, excepcións, contextos..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="form-section">
+                <h3>👁️ Vista previa</h3>
+                <div class="preview-box" id="preview">
+                    <div class="preview-label">Previsualización</div>
+                    <div style="color:var(--text-dim)">Enche os campos para ver a previsualización...</div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1rem;">💾 Gardar no diccionario</button>
+        </form>
+
+        <!-- CATEGORÍA NUEVA -->
+        <div class="form-section" style="margin-top:20px;">
+            <h3>📁 Engadir nova categoría</h3>
+            <div class="add-cat-row">
+                <input type="text" id="new-cat-emoji" placeholder="Emoji" style="max-width:60px; text-align:center; font-size:1.3rem;">
+                <input type="text" id="new-cat-id" placeholder="ID (ex: transporte)">
+                <input type="text" id="new-cat-name" placeholder="Nome (ex: Transporte e vehículos)">
+                <button type="button" class="btn btn-primary" onclick="addCategoria()">+ Engadir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB: ENTRADA POR LOTE ==================== -->
+    <div class="tab-content" id="tab-lote">
+        <div class="form-section">
+            <h3>📦 Entrada masiva (JSON array)</h3>
+            <p style="font-size:0.8rem; color:var(--text-dim); margin-bottom:12px;">
+                Pega un array JSON con múltiples entradas. Cada obxecto debe ter polo menos: categoria, galego, emoji.
+            </p>
+            <textarea id="lote-input" rows="15" style="width:100%; font-family:var(--mono); font-size:0.75rem; padding:12px; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); resize:vertical;">[
+  {
+    "categoria": "natureza",
+    "galego": "auga",
+    "castellano": "agua",
+    "emoji": "🌊",
+    "tipo_simbolo": "raiz",
+    "modo": "entidad",
+    "nivel": "4",
+    "lleva_accion": true,
+    "accion_significado": "fluír",
+    "logica": "Elemento base da natureza",
+    "ejemplos": [
+      {"giriji": "🌊↗️", "traduccion": "fluír"},
+      {"giriji": "🌊⊕", "traduccion": "océano"}
+    ]
+  }
+]</textarea>
+            <button class="btn btn-primary" style="width:100%; margin-top:12px;" onclick="enviarLote()">📤 Enviar lote</button>
+        </div>
+    </div>
+
+    <!-- ==================== TAB: IMPORTAR/EXPORTAR ==================== -->
+    <div class="tab-content" id="tab-io">
+        <div class="io-section">
+            <div class="io-box">
+                <h3>📥 Importar JSON</h3>
+                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                    📁 Arrastra un arquivo .json aquí<br>ou fai clic para seleccionar
+                </div>
+                <input type="file" id="file-input" accept=".json" style="display:none;">
+                <textarea id="import-text" placeholder="...ou pega o JSON aquí"></textarea>
+                <button class="btn btn-primary" onclick="importarJSON()">📥 Importar</button>
+                <div style="margin-top:8px;">
+                    <label style="font-size:0.75rem; color:var(--text-dim);">
+                        <input type="checkbox" id="import-merge" checked> Mesturar co existente (non sobreescribir)
+                    </label>
+                </div>
+            </div>
+            <div class="io-box">
+                <h3>📤 Exportar JSON</h3>
+                <textarea id="export-text" readonly placeholder="Pulsa exportar para ver o JSON"></textarea>
+                <button class="btn" onclick="exportarJSON()">📤 Cargar JSON actual</button>
+                <button class="btn btn-primary" onclick="descargarJSON()" style="margin-top:6px;">💾 Descargar arquivo</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// === CATEGORÍAS ===
+let categorias = [
+    {id: "nucleo", emoji: "🧠", nombre: "Núcleo (operadores fundamentais)"},
+    {id: "identidade", emoji: "👤", nombre: "Identidade / Pronomes"},
+    {id: "verbos_base", emoji: "↗️", nombre: "Verbos (Accións base)"},
+    {id: "sustantivos", emoji: "📦", nombre: "Sustantivos / Obxectos"},
+    {id: "posicion", emoji: "📍", nombre: "Posición / Espazo"},
+    {id: "modificadores", emoji: "➕", nombre: "Modificadores (Intensidade, Negación)"},
+    {id: "modos", emoji: "🌀", nombre: "Modos (Concepto, Abstracción)"},
+    {id: "tempo", emoji: "⏱️", nombre: "Tempo / Aspecto"},
+    {id: "natureza", emoji: "🌳", nombre: "Natureza / Entorno"},
+    {id: "emocions", emoji: "😢", nombre: "Emocións / Estados mentais"},
+    {id: "corpo", emoji: "👁️", nombre: "Corpo humano / Sentidos"},
+    {id: "alimentacion", emoji: "🍽️", nombre: "Alimentación"},
+    {id: "comercio", emoji: "💰", nombre: "Comercio / Economía"},
+    {id: "tecnoloxia", emoji: "💻", nombre: "Tecnoloxía / Dixital"},
+    {id: "relacions", emoji: "❤️", nombre: "Relacións sociais"},
+    {id: "construcion", emoji: "🏗️", nombre: "Construción / Vivenda"},
+    {id: "transporte", emoji: "🚗", nombre: "Transporte / Movemento"},
+    {id: "clima", emoji: "🌧️", nombre: "Clima / Fenómenos naturais"},
+    {id: "son", emoji: "🎵", nombre: "Son / Música"},
+    {id: "lei", emoji: "⚖️", nombre: "Lei / Autoridade"},
+    {id: "arte", emoji: "🎨", nombre: "Arte / Creación"},
+    {id: "fogar", emoji: "🛏️", nombre: "Fogar / Vida doméstica"},
+    {id: "vestimenta", emoji: "👕", nombre: "Vestimenta / Aparencia"},
+    {id: "xeografia", emoji: "🌍", nombre: "Xeografía / Territorio"},
+    {id: "enerxia", emoji: "⚡", nombre: "Enerxía / Recursos"},
+    {id: "saude", emoji: "💊", nombre: "Saúde / Medicina"},
+    {id: "educacion", emoji: "🎓", nombre: "Educación / Aprendizaxe"},
+    {id: "agricultura", emoji: "🌾", nombre: "Agricultura / Campo"},
+    {id: "industria", emoji: "🏭", nombre: "Industria / Produción"},
+    {id: "politica", emoji: "🏛️", nombre: "Política / Goberno"},
+    {id: "xogo", emoji: "🎮", nombre: "Xogo / Ocio / Deporte"},
+    {id: "relixion", emoji: "🙏", nombre: "Relixión / Espiritualidade"},
+    {id: "xustiza", emoji: "🔫", nombre: "Xustiza / Crime"},
+    {id: "vida_morte", emoji: "💀", nombre: "Vida / Morte / Existencia"},
+    {id: "xenero", emoji: "⚧️", nombre: "Xénero / Identidade / Orientación"},
+    {id: "comunicacion", emoji: "📺", nombre: "Comunicación / Medios"},
+    {id: "moral", emoji: "🤝", nombre: "Moral / Valores"},
+    {id: "matematicas", emoji: "🔢", nombre: "Matemáticas / Lóxica"},
+    {id: "navegacion", emoji: "🚢", nombre: "Navegación / Pesca"},
+    {id: "sonos", emoji: "💭", nombre: "Soños / Mundo interior"},
+    {id: "parentesco", emoji: "👪", nombre: "Parentesco / Familia"},
+    {id: "conectores", emoji: "🔗", nombre: "Conectores / Preposicións"}
+];
+
+function loadCategorias() {
+    const saved = localStorage.getItem('giriji_cats_extra');
+    if (saved) {
+        const extras = JSON.parse(saved);
+        extras.forEach(c => {
+            if (!categorias.find(x => x.id === c.id)) categorias.push(c);
+        });
+    }
+    renderCategorias();
+}
+
+function renderCategorias() {
+    const sel = document.getElementById('sel-categoria');
+    sel.innerHTML = '<option value="">-- Escoller categoría --</option>';
+    categorias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    categorias.forEach(c => {
+        sel.innerHTML += `<option value="${c.id}">${c.emoji} ${c.nombre}</option>`;
+    });
+}
+
+function addCategoria() {
+    const emoji = document.getElementById('new-cat-emoji').value.trim();
+    const id = document.getElementById('new-cat-id').value.trim().toLowerCase().replace(/\s+/g, '_');
+    const nombre = document.getElementById('new-cat-name').value.trim();
+    if (!id || !nombre) return showMsg('Falta ID ou nome', 'err');
+    if (categorias.find(c => c.id === id)) return showMsg('Esa categoría xa existe', 'err');
+
+    const newCat = {id, emoji: emoji || '📁', nombre};
+    categorias.push(newCat);
+
+    let extras = JSON.parse(localStorage.getItem('giriji_cats_extra') || '[]');
+    extras.push(newCat);
+    localStorage.setItem('giriji_cats_extra', JSON.stringify(extras));
+
+    renderCategorias();
+    document.getElementById('new-cat-emoji').value = '';
+    document.getElementById('new-cat-id').value = '';
+    document.getElementById('new-cat-name').value = '';
+    showMsg('Categoría engadida: ' + nombre, 'ok');
+}
+
+// === TABS ===
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+});
+
+// === EJEMPLOS ===
+function addEjemplo() {
+    const list = document.getElementById('ejemplos-list');
+    const row = document.createElement('div');
+    row.className = 'ejemplo-row';
+    row.innerHTML = `
+        <input type="text" name="ejemplo_giriji[]" placeholder="Frase en Giri-ji">
+        <input type="text" name="ejemplo_traduccion[]" placeholder="Tradución">
+        <button type="button" class="btn btn-small btn-danger" onclick="this.parentElement.remove()">✕</button>
+    `;
+    list.appendChild(row);
+}
+
+// === MENSAJES ===
+function showMsg(text, type) {
+    const msg = document.getElementById('msg');
+    msg.className = 'msg ' + type;
+    msg.textContent = text;
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 5000);
+}
+
+// === PREVIEW ===
+function updatePreview() {
+    const form = document.getElementById('formEntrada');
+    const emoji = form.emoji.value;
+    const galego = form.galego.value;
+    const modo = form.modo.value;
+    const tipo = form.tipo_simbolo.value;
+    const preview = document.getElementById('preview');
+
+    if (!emoji && !galego) {
+        preview.innerHTML = '<div class="preview-label">Previsualización</div><div style="color:var(--text-dim)">Enche os campos...</div>';
+        return;
+    }
+
+    const modoLabel = {entidad:'Entidade',accion:'Acción',estado:'Estado',atributo:'Atributo',evento:'Evento',operador:'Operador'};
+    const tipoLabel = {raiz:'Raíz',composicion:'Composición',operador:'Operador',modificador:'Modificador'};
+
+    preview.innerHTML = `
+        <div class="emoji-big">${emoji || '?'}</div>
+        <div><strong style="color:var(--text)">${galego || '...'}</strong></div>
+        <div style="margin-top:6px; color:var(--text-dim); font-size:0.75rem;">
+            ${tipoLabel[tipo] || tipo} · ${modoLabel[modo] || modo}
+            ${form.lleva_accion?.checked ? ' · ↗️' : ''}
+            ${form.es_contenedor?.checked ? ' · [ ]' : ''}
+            ${form.es_pasivo?.checked ? ' · pasivo' : ''}
+        </div>
+    `;
+}
+
+document.getElementById('formEntrada').addEventListener('input', updatePreview);
+document.querySelectorAll('#formEntrada input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', updatePreview);
+});
+
+// === FORM SUBMIT (AJAX) ===
+document.getElementById('formEntrada').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    fetch('guardar.php', { method: 'POST', body: formData })
+        .then(r => r.text())
+        .then(resp => {
+            if (resp.includes('ok') || resp.includes('OK')) {
+                showMsg('✔ Gardado correctamente', 'ok');
+                this.reset();
+                updatePreview();
+                loadStats();
+            } else {
+                showMsg(resp, 'err');
+            }
+        })
+        .catch(err => showMsg('Erro de conexión: ' + err, 'err'));
+});
+
+// === LOTE ===
+function enviarLote() {
+    const raw = document.getElementById('lote-input').value.trim();
+    if (!raw) return showMsg('Pega o JSON primeiro', 'err');
+    try {
+        JSON.parse(raw);
+    } catch(e) {
+        return showMsg('JSON inválido: ' + e.message, 'err');
+    }
+
+    fetch('guardar_lote.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: raw
+    })
+    .then(r => r.json())
+    .then(resp => {
+        if (resp.status === 'ok') {
+            showMsg(`✔ ${resp.insertadas} entradas gardadas (${resp.duplicadas} duplicadas)`, 'ok');
+            loadStats();
+        } else {
+            showMsg(resp.mensaje || 'Erro', 'err');
+        }
+    })
+    .catch(err => showMsg('Erro: ' + err, 'err'));
+}
+
+// === IMPORT/EXPORT ===
+function exportarJSON() {
+    fetch('exportar.php')
+        .then(r => r.text())
+        .then(json => {
+            document.getElementById('export-text').value = json;
+            showMsg('JSON cargado', 'ok');
+        })
+        .catch(err => showMsg('Erro: ' + err, 'err'));
+}
+
+function descargarJSON() {
+    fetch('exportar.php')
+        .then(r => r.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'giriji_diccionario_' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+}
+
+function importarJSON() {
+    const merge = document.getElementById('import-merge').checked;
+    let raw = document.getElementById('import-text').value.trim();
+    if (!raw) return showMsg('Pega ou arrastra un JSON', 'err');
+
+    try {
+        JSON.parse(raw);
+    } catch(e) {
+        return showMsg('JSON inválido: ' + e.message, 'err');
+    }
+
+    fetch('importar.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ datos: JSON.parse(raw), merge: merge })
+    })
+    .then(r => r.json())
+    .then(resp => {
+        if (resp.status === 'ok') {
+            showMsg(`✔ Importación correcta: ${resp.total} entradas`, 'ok');
+            loadStats();
+        } else {
+            showMsg(resp.mensaje || 'Erro', 'err');
+        }
+    })
+    .catch(err => showMsg('Erro: ' + err, 'err'));
+}
+
+// Drag & drop
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+function handleFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById('import-text').value = e.target.result;
+    reader.readAsText(file);
+    showMsg('Arquivo cargado: ' + file.name, 'info');
+}
+
+// === STATS ===
+function loadStats() {
+    fetch('stats.php')
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('stat-total').textContent = data.total || 0;
+            document.getElementById('stat-cats').textContent = data.categorias || 0;
+            document.getElementById('stat-raices').textContent = data.raices || 0;
+            document.getElementById('stat-ejemplos').textContent = data.ejemplos || 0;
+        })
+        .catch(() => {});
+}
+
+// === INIT ===
+loadCategorias();
+loadStats();
+
+const params = new URLSearchParams(window.location.search);
+if (params.get('status') === 'ok') showMsg('✔ Gardado correctamente', 'ok');
+</script>
+
+</body>
+</html>
